@@ -1,4 +1,3 @@
-import { textblockTypeInputRule } from "prosemirror-inputrules";
 import { AnyExtension, ExtensionPriority } from "remirror";
 import {
   BlockquoteExtension,
@@ -17,18 +16,8 @@ import {
   StrikeExtension,
   TextHighlightExtension,
   TrailingNodeExtension,
+  MentionAtomExtension
 } from "remirror/extensions";
-// import languages from "./languages";
-
-/**
- * Modifies the Code Block extension creation behavior. Creates a code block after language specification + space/line break.
- */
-class ExtendedCodeBlockExtension extends CodeBlockExtension {
-  createInputRules() {
-    const regexp = /^```([a-zA-Z]+)?(\n|\s)/;
-    return [textblockTypeInputRule(regexp, this.type)];
-  }
-}
 
 /**
  * A list of allowed Remirror Extensions
@@ -45,13 +34,16 @@ const extensions =
       new StrikeExtension(),
       new BulletListExtension({ enableSpine: true }),
       new OrderedListExtension(),
+      new MentionAtomExtension({
+        matchers: [
+          { name: 'at', char: '@',  },
+          { name: 'tag', char: '#', },
+        ],
+      }),
       new ListItemExtension({
         priority: ExtensionPriority.High,
         enableCollapsible: true,
       }),
-    //   new ExtendedCodeBlockExtension({
-    //     supportedLanguages: languages,
-    //   }),
       new TrailingNodeExtension(),
       new MarkdownExtension({
         copyAsMarkdown: false,

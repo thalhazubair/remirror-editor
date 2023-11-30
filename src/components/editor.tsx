@@ -3,6 +3,7 @@ import { useContentEditor } from '../ContentEditor/useContentEditor'
 
 const initialValue = `Text editor demo`
 
+
 export default function Editor() {
   const { editor, onChange, content, setContent } = useContentEditor(initialValue);
   
