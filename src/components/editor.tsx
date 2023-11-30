@@ -3,6 +3,15 @@ import { useContentEditor } from '../ContentEditor/useContentEditor'
 
 const initialValue = `Text editor demo`
 
+export const SAMPLE_DOC = {
+  type: 'doc',
+  content: [
+    {
+      type: 'paragraph',
+      content: [{ type: 'text', text: 'Loaded content' }],
+    },
+  ],
+};
 
 export default function Editor() {
   const { editor, onChange, content, setContent } = useContentEditor(initialValue);
@@ -17,7 +26,7 @@ export default function Editor() {
       <div className="content">
         <ContentEditor editor={editor} onChange={onChange} />
 
-        <pre className="markdown-content">{content}</pre>
+        {/* <pre className="markdown-content">{content}</pre> */}
       </div>
     </div>
   )
