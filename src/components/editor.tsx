@@ -14,19 +14,24 @@ export const SAMPLE_DOC = {
 };
 
 export default function Editor() {
-  const { editor, onChange, content, setContent } = useContentEditor(initialValue);
+  const { editor, onChange, content, setContent } = useContentEditor(SAMPLE_DOC);
+
   
   return (
     <div className="container">
-      <h1>text editor</h1>
+      <h1
+      style={{
+        fontFamily:'sans-serif'
+      }}
+      >Text Editor</h1>
 
       <div>
-        <button onClick={() => setContent(initialValue)}>Reset</button>
+        <button onClick={() => setContent('')}>Reset</button>
       </div>
       <div className="content">
         <ContentEditor editor={editor} onChange={onChange} />
 
-        {/* <pre className="markdown-content">{content}</pre> */}
+        <pre className="markdown-content">{content}</pre>
       </div>
     </div>
   )

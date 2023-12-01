@@ -11,12 +11,11 @@ export interface UseContentEditorReturnType {
 }
 
 export function useContentEditor(
-  value: string,
+  value: string | any,
   args?: {
     placeholder?: string;
   }
 ): UseContentEditorReturnType {
-  const [content, setMarkdownContent] = useState(value);
 
   const extensions = remirrorExtensions(args?.placeholder);
 
@@ -27,7 +26,11 @@ export function useContentEditor(
     selection: "start",
   });
 
-  const { onChange, manager } = editor;
+  const { onChange, manager, getContext } = editor;
+
+  const text = getContext()?.helpers.getText()
+
+  const [content, setMarkdownContent] = useState(text);  
 
   const onEditorChange = useCallback(
     (

@@ -1,6 +1,6 @@
-import { EditorComponent, Remirror, ReactExtensions, UseRemirrorReturn, useRemirrorContext } from "@remirror/react";
+import { EditorComponent, Remirror, ReactExtensions, UseRemirrorReturn, useRemirrorContext, useHelpers } from "@remirror/react";
 import { AnyExtension, RemirrorEventListener } from "remirror";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { SAMPLE_DOC } from "./editor";
 
 
@@ -12,16 +12,36 @@ export function ContentEditor({
   onChange: RemirrorEventListener<AnyExtension>;
 }) {
 
+  const [data, setData] = useState('')
+
   function LoadButton() {
     const { setContent } = useRemirrorContext();
     const handleClick = useCallback(() => setContent(SAMPLE_DOC), [setContent]);
-  
+
     return (
+      <>
       <button onMouseDown={(event) => event.preventDefault()} onClick={handleClick}>
         Load
       </button>
+      </>
     );
   }  
+
+  function SaveButton() {
+    const { getJSON } = useHelpers();
+    const handleClick = useCallback(() => {
+      setData(JSON.stringify(getJSON()))
+    }, [getJSON]);
+    
+    console.log(data);
+    
+  
+    return (
+      <button onMouseDown={(event) => event.preventDefault()} onClick={handleClick}>
+        Save
+      </button>
+    );
+  }
 
   return (
     <div>
@@ -33,6 +53,7 @@ export function ContentEditor({
       >
         <EditorComponent/>
         <LoadButton/>
+        <SaveButton/>
       </Remirror>
     </div>
   );
