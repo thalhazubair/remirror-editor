@@ -1,8 +1,14 @@
-import { EditorComponent, Remirror, ReactExtensions, UseRemirrorReturn, useRemirrorContext, useHelpers } from "@remirror/react";
+import {
+  EditorComponent,
+  Remirror,
+  ReactExtensions,
+  UseRemirrorReturn,
+  useRemirrorContext,
+  useHelpers,
+} from "@remirror/react";
 import { AnyExtension, RemirrorEventListener } from "remirror";
 import { useCallback, useState } from "react";
 import { SAMPLE_DOC } from "./editor";
-
 
 export function ContentEditor({
   editor: { manager, state },
@@ -11,8 +17,7 @@ export function ContentEditor({
   editor: UseRemirrorReturn<ReactExtensions<AnyExtension>>;
   onChange: RemirrorEventListener<AnyExtension>;
 }) {
-
-  const [data, setData] = useState('')
+  const [data, setData] = useState("");
 
   function LoadButton() {
     const { setContent } = useRemirrorContext();
@@ -20,24 +25,29 @@ export function ContentEditor({
 
     return (
       <>
-      <button onMouseDown={(event) => event.preventDefault()} onClick={handleClick}>
-        Load
-      </button>
+        <button
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={handleClick}
+        >
+          Load
+        </button>
       </>
     );
-  }  
+  }
 
   function SaveButton() {
     const { getJSON } = useHelpers();
     const handleClick = useCallback(() => {
-      setData(JSON.stringify(getJSON()))
+      setData(JSON.stringify(getJSON()));
     }, [getJSON]);
-    
+
     console.log(data);
-    
-  
+
     return (
-      <button onMouseDown={(event) => event.preventDefault()} onClick={handleClick}>
+      <button
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={handleClick}
+      >
         Save
       </button>
     );
@@ -45,15 +55,10 @@ export function ContentEditor({
 
   return (
     <div>
-      <Remirror
-        manager={manager}
-        state={state}
-        onChange={onChange}
-        autoFocus
-      >
-        <EditorComponent/>
-        <LoadButton/>
-        <SaveButton/>
+      <Remirror manager={manager} state={state} onChange={onChange} autoFocus>
+        <EditorComponent />
+        <LoadButton />
+        <SaveButton />
       </Remirror>
     </div>
   );

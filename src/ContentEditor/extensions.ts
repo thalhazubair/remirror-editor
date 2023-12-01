@@ -16,7 +16,7 @@ import {
   StrikeExtension,
   TextHighlightExtension,
   TrailingNodeExtension,
-  MentionAtomExtension
+  MentionAtomExtension,
 } from "remirror/extensions";
 
 /**
@@ -24,7 +24,8 @@ import {
  */
 const extensions =
   (placeholder: string = "") =>
-    (): Array<AnyExtension> => [
+  (): Array<AnyExtension> =>
+    [
       new BoldExtension(),
       new ItalicExtension(),
       new HeadingExtension(),
@@ -36,8 +37,8 @@ const extensions =
       new OrderedListExtension(),
       new MentionAtomExtension({
         matchers: [
-          { name: 'at', char: '@',  },
-          { name: 'tag', char: '#', },
+          { name: "at", char: "@" },
+          { name: "tag", char: "#" },
         ],
       }),
       new ListItemExtension({

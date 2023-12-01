@@ -1,7 +1,15 @@
 import remirrorExtensions from "./extensions";
-import { ReactExtensions, useRemirror, UseRemirrorReturn } from "@remirror/react";
+import {
+  ReactExtensions,
+  useRemirror,
+  UseRemirrorReturn,
+} from "@remirror/react";
 import { useCallback, useState } from "react";
-import { AnyExtension, RemirrorEventListener, RemirrorEventListenerProps } from "remirror";
+import {
+  AnyExtension,
+  RemirrorEventListener,
+  RemirrorEventListenerProps,
+} from "remirror";
 
 export interface UseContentEditorReturnType {
   editor: UseRemirrorReturn<ReactExtensions<AnyExtension>>;
@@ -16,7 +24,6 @@ export function useContentEditor(
     placeholder?: string;
   }
 ): UseContentEditorReturnType {
-
   const extensions = remirrorExtensions(args?.placeholder);
 
   const editor = useRemirror({
@@ -28,21 +35,21 @@ export function useContentEditor(
 
   const { onChange, manager, getContext } = editor;
 
-  const text = getContext()?.helpers.getText()
+  const text = getContext()?.helpers.getText();
 
-  const [content, setMarkdownContent] = useState(text);  
+  const [content, setMarkdownContent] = useState(text);
 
   const onEditorChange = useCallback(
     (
       parameter: RemirrorEventListenerProps<
         ReactExtensions<ReturnType<typeof extensions>[number]>
-      >,
+      >
     ) => {
       const markdownContent = parameter.helpers.getMarkdown(parameter.state);
       setMarkdownContent(markdownContent);
       onChange(parameter);
     },
-    [onChange],
+    [onChange]
   );
 
   const setContent = useCallback(
@@ -52,11 +59,11 @@ export function useContentEditor(
           content: value,
           selection: "end",
           stringHandler: "markdown",
-        }),
+        })
       );
       setMarkdownContent(value);
     },
-    [manager],
+    [manager]
   );
 
   return {
@@ -65,5 +72,4 @@ export function useContentEditor(
     setContent,
     content,
   };
-  
 }
