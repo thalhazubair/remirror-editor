@@ -36,12 +36,12 @@ export function ContentEditor({
   }
 
   function SaveButton() {
-    const { getJSON } = useHelpers();
+    const { getJSON } = useHelpers()
+
     const handleClick = useCallback(() => {
       setData(JSON.stringify(getJSON()));
     }, [getJSON]);
 
-    console.log(data);
 
     return (
       <button
@@ -53,12 +53,33 @@ export function ContentEditor({
     );
   }
 
+  function PostLoad() {
+    const { setContent } = useRemirrorContext();
+    const handleClick = useCallback(() => {
+    
+        const parsedData = JSON.parse(data);
+
+        setContent(parsedData);
+
+    }, [data, setContent]);
+
+    return(
+      <button
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={handleClick}
+      >
+        Preload
+      </button>
+    )
+  }
+
   return (
     <div>
       <Remirror manager={manager} state={state} onChange={onChange} autoFocus>
         <EditorComponent />
         <LoadButton />
         <SaveButton />
+        <PostLoad/>
       </Remirror>
     </div>
   );

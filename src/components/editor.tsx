@@ -1,7 +1,6 @@
 import { ContentEditor } from "../components/contentEditor";
 import { useContentEditor } from "../ContentEditor/useContentEditor";
 
-const initialValue = `Text editor demo`;
 
 export const SAMPLE_DOC = {
   type: "doc",
