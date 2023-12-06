@@ -20,7 +20,7 @@ export default function Editor() {
     <div className="container">
       <h1
         style={{
-          fontFamily: "sans-serif",
+          fontFamily: "sans-serif"
         }}
       >
         Text Editor
