@@ -1,7 +1,6 @@
 import { ContentEditor } from "../components/contentEditor";
 import { useContentEditor } from "../ContentEditor/useContentEditor";
 
-
 export const SAMPLE_DOC = {
   type: "doc",
   content: [
@@ -17,10 +16,15 @@ export default function Editor() {
     useContentEditor(SAMPLE_DOC);
 
   return (
-    <div className="container">
+    <div
+      className="container"
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       <h1
         style={{
-          fontFamily: "sans-serif"
+          fontFamily: "sans-serif",
+          display: "flex",
+          justifyContent: "center",
         }}
       >
         Text Editor
@@ -29,10 +33,27 @@ export default function Editor() {
       <div>
         <button onClick={() => setContent("")}>Reset</button>
       </div>
-      <div className="content">
+      <div
+        className="content"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <ContentEditor editor={editor} onChange={onChange} />
 
-        <pre className="markdown-content">{content}</pre>
+        <div
+          className="markdown-content"
+          style={{
+            maxWidth: "320px",
+            whiteSpace: "pre-wrap",
+            marginTop: "10px",
+            fontFamily: "monospace",
+          }}
+        >
+          {content}
+        </div>
       </div>
     </div>
   );

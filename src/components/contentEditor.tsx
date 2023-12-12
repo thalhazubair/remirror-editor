@@ -1,14 +1,86 @@
 import {
   EditorComponent,
+  FloatingWrapper,
+  MentionAtomNodeAttributes,
   Remirror,
+  useMentionAtom,
   ReactExtensions,
   UseRemirrorReturn,
   useRemirrorContext,
   useHelpers,
 } from "@remirror/react";
 import { AnyExtension, RemirrorEventListener } from "remirror";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { SAMPLE_DOC } from "./editor";
+import { cx } from "@remirror/core";
+import styles from "@/style";
+
+const ALL_USERS = [
+  { id: "Thalha", label: "Thalha" },
+  { id: "Hamsa", label: "Hamsa" },
+  { id: "Jhon", label: "Jhon" },
+  { id: "Koya", label: "Koya" },
+  { id: "Doe", label: "Doe" },
+];
+
+const MentionSuggestor: React.FC = () => {
+  const [options, setOptions] = useState<MentionAtomNodeAttributes[]>([]);
+  const { state, getMenuProps, getItemProps, indexIsHovered, indexIsSelected } =
+    useMentionAtom({
+      items: options,
+    });
+
+  useEffect(() => {
+    if (!state) {
+      return;
+    }
+
+    const searchTerm = state.query.full.toLowerCase();
+
+    const filteredOptions = ALL_USERS.filter((user) =>
+      user.label.toLowerCase().includes(searchTerm)
+    )
+      .sort()
+      .slice(0, 5);
+
+    setOptions(filteredOptions);
+  }, [state]);
+
+  const enabled = Boolean(state);
+
+  return (
+    <FloatingWrapper
+      positioner="cursor"
+      enabled={enabled}
+      placement="bottom-start"
+    >
+      <div {...getMenuProps()} className="suggestions">
+        {enabled &&
+          options.map((user, index) => {
+            const isHighlighted = indexIsSelected(index);
+            const isHovered = indexIsHovered(index);
+
+            return (
+              <div
+                key={user.id}
+                className={cx(
+                  "suggestion",
+                  isHighlighted && "highlighted",
+                  isHovered && "hovered"
+                )}
+                {...getItemProps({
+                  item: user,
+                  index,
+                })}
+              >
+                {user.label}
+              </div>
+            );
+          })}
+      </div>
+    </FloatingWrapper>
+  );
+};
 
 export function ContentEditor({
   editor: { manager, state },
@@ -121,8 +193,10 @@ export function ContentEditor({
 
   return (
     <div>
+      <style>{styles}</style>
       <Remirror manager={manager} state={state} onChange={onChange} autoFocus>
         <EditorComponent />
+        <MentionSuggestor />
         <LoadButton />
         <SaveButton />
         <PostLoad />

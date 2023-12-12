@@ -36,10 +36,7 @@ const extensions =
       new BulletListExtension({ enableSpine: true }),
       new OrderedListExtension(),
       new MentionAtomExtension({
-        matchers: [
-          { name: "at", char: "@" },
-          { name: "tag", char: "#" },
-        ],
+        matchers: [{ name: "at", char: "@" }],
       }),
       new ListItemExtension({
         priority: ExtensionPriority.High,
