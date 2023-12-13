@@ -14,12 +14,6 @@ import {
   useCallback,
   useState,
   useEffect,
-  SetStateAction,
-  JSXElementConstructor,
-  Key,
-  PromiseLikeOfReactNode,
-  ReactElement,
-  ReactNode,
 } from "react";
 import { SAMPLE_DOC } from "./editor";
 import { cx } from "@remirror/core";
@@ -30,6 +24,12 @@ import { ErrorMessage } from "@hookform/error-message";
 interface MentionSuggestorProps {
   users: { id: string; label: string }[];
 }
+
+type FormValues = {
+  fields: {
+    name: string;
+  }[];
+};
 
 const MentionSuggestor: React.FC<MentionSuggestorProps> = ({ users }) => {
   const [options, setOptions] = useState<MentionAtomNodeAttributes[]>([]);
@@ -105,7 +105,7 @@ export function ContentEditor({
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormValues>({
     mode: "onBlur",
   });
 
@@ -114,13 +114,13 @@ export function ContentEditor({
     control,
   });
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormValues>({
     fields: [],
   });
 
   const [users, setAllUsers] = useState<{ id: string; label: string }[]>([]);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FormValues) => {
     setFormData(data);
     setShowInputFields(false);
     setModal(false);
