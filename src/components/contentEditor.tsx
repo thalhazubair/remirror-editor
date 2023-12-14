@@ -10,11 +10,7 @@ import {
   useHelpers,
 } from "@remirror/react";
 import { AnyExtension, RemirrorEventListener } from "remirror";
-import {
-  useCallback,
-  useState,
-  useEffect,
-} from "react";
+import { useCallback, useState, useEffect } from "react";
 import { SAMPLE_DOC } from "./editor";
 import { cx } from "@remirror/core";
 import styles from "@/style";
@@ -125,18 +121,14 @@ export function ContentEditor({
     setShowInputFields(false);
     setModal(false);
 
-    setAllUsers((prevUsers) => [
-      ...prevUsers,
-      {
-        id: data.fields[data.fields.length - 1].name,
-        label: data.fields[data.fields.length - 1].name,
-      },
-    ]);
+    const fieldNames = data.fields.map((field) => field.name);
 
-    setAllUsers((updatedUsers) => {
-      console.log(updatedUsers);
-      return updatedUsers;
-    });
+    setAllUsers(() => [
+      ...fieldNames.map((name) => ({
+        id: name,
+        label: name,
+      })),
+    ]);
   };
 
   function LoadButton() {
