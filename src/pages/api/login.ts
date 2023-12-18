@@ -8,10 +8,8 @@ const payload = "test123";
 const expiresIn = "1d";
 
 
-export default function Login(req: NextApiRequest, res: NextApiResponse) {
+export default function Login(req: NextApiRequest, res: NextApiResponse) {  
   const { email, password } = req.body;
-  console.log(process.env.defaultemail,email);
-  console.log(process.env.defaultpassword,password);
 
   if (process.env.defaultemail == email && process.env.defaultpassword == password) {
     Jwt.sign(
@@ -24,7 +22,6 @@ export default function Login(req: NextApiRequest, res: NextApiResponse) {
         if (err) {
           console.error(err, "some error occured");
         } else {
-          console.log(token);
           res.status(200).json({ token: `Bearer ${token}` });
         }
       }
