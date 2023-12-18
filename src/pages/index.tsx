@@ -2,7 +2,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import dynamic from "next/dynamic";
 
-const Main = dynamic(import("../components/editor"), {
+const Main = dynamic(import("../components/loginForm"), {
   ssr: false,
 });
 const inter = Inter({ subsets: ["latin"] });
